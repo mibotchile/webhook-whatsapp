@@ -13,7 +13,7 @@ import { AppService } from './app.service';
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBIT_URL],
-          queue: 'whatsapp.messages.dev',
+          queue: 'whatsapp.messages.dev2',
           queueOptions: {
             durable: true,
           },

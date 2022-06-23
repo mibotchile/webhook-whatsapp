@@ -20,7 +20,7 @@ export class AppController {
   async onApplicationBootstrap() {
     try {
       await this.client.connect();
-      console.log('rabbitmq conectado');
+      console.log('[RABBITMQ CONECTADO] - [url] ' + process.env.RABBIT_URL);
     } catch (error) {
       console.log('error', error);
     }
@@ -29,23 +29,22 @@ export class AppController {
   @Post()
   async getInfoMesagge(@Body() data): Promise<any> {
     const messageData = data;
-    // await this.appService.send(
-    //   messageData.To,
-    //   messageData.From,
-    //   'Hola ' +
-    //     messageData.ProfileName +
-    //     ' como estas\n' +
-    //     messageData.Body,
-    // );
-
+    console.log('[MENSAJE] ', data);
     this.client.emit<any>('whatsapp_message_received', messageData);
-    console.log(data.Body);
-
     return true;
   }
 
-  @Get()
+  @Post('test')
+  async testRabbit(@Body() data): Promise<any> {
+    console.log('[MENSAJE] ', data);
+    this.client.emit<any>('test_rabbit', data);
+    return true;
+  }
+
+  @Get() //webhook-authentication cloud api whatsapp
   auth(@Query() query): any {
+    console.log('holaaaaaaaaaaaaaaaaaaa');
+
     const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
     // Parse params from the webhook verification request
     const mode = query['hub.mode'];
