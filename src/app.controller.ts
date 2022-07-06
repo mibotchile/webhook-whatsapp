@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Query,
   HttpException,
   HttpStatus,
@@ -31,6 +32,14 @@ export class AppController {
     const messageData = data;
     console.log('[MENSAJE] ', data);
     this.client.emit<any>('whatsapp_message_received', messageData);
+    return true;
+  }
+
+  @Post('messageStatus')
+  async getStatusMesagge(@Body() data): Promise<any> {
+    const messageData = data;
+    console.log('[MENSAJE STATUS] ', data);
+    this.client.emit<any>('whatsapp_message_status', messageData);
     return true;
   }
 
